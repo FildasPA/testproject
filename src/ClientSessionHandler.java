@@ -8,16 +8,9 @@ import java.util.Vector;
 // Créée après l'établissement d'une connexion avec un utilisateur.
 // Gère les actions de l'utilisateur.
 //=============================================================================
-public class ClientSessionHandler extends Thread
+public class ClientSessionHandler extends ClientSession implements Runnable
 {
-	private Socket socket;
 	private int clientNumber;
-
-	// private BufferedReader in;
-	// private PrintWriter out;
-
-	private ObjectInputStream inputStream;
-	private ObjectOutputStream outputStream;
 
 	private Vector<SessionServer> sessions; // liste des sessions ouvertes/en cours
 	private SessionServer session; // session à laquelle l'utilisateur participe
@@ -51,26 +44,13 @@ public class ClientSessionHandler extends Thread
 	public ClientSessionHandler(Socket socket, int clientNumber,
 	                            Vector<SessionServer> sessions)
 	{
-		super("ClientSessionHandler");
-		this.socket       = socket;
+		super(socket);
 		this.clientNumber = clientNumber;
 		this.sessions     = sessions;
 		this.session      = null;
 
-		try {
-			// in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			// out = new PrintWriter(socket.getOutputStream(), true);
-
-			outputStream = new ObjectOutputStream(socket.getOutputStream());
-			inputStream  = new ObjectInputStream(socket.getInputStream());
-
-		} catch (IOException e) {
-			log(e.getMessage());
-		}
 		log("nouvelle session établie");
 	}
-
-
 
 	//---------------------------------------------------------------------------
 	// * Run
@@ -101,41 +81,12 @@ public class ClientSessionHandler extends Thread
 	}
 
 	//---------------------------------------------------------------------------
-	// * Send object
-	//---------------------------------------------------------------------------
-	private void sendObject(Object object)
-	{
-		try {
-			outputStream.writeObject(object);
-			outputStream.flush();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	//---------------------------------------------------------------------------
-	// * Get object
-	//---------------------------------------------------------------------------
-	private Object getObject()
-	{
-		try {
-			Object object = inputStream.readObject();
-			return object;
-		} catch(IOException e) {
-			// e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	//---------------------------------------------------------------------------
 	// * Log
 	// Affiche un message sur la sortie standard du serveur. Indique le numéro
 	// du client avant le message.
 	//---------------------------------------------------------------------------
-	private void log(String message)
+	protected void log(String message)
 	{
-		System.out.println("#" + clientNumber + " " + message);
+		super.log("#" + clientNumber + " " + message);
 	}
 }

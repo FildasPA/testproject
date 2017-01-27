@@ -8,37 +8,16 @@ import java.util.Scanner;
 // ----------------------------------------------------------------------------
 // Etablit une connexion avec le serveur.
 //=============================================================================
-class Client
+class Client extends ClientSession
 {
-	private Socket socket;
-
-	private ObjectInputStream inputStream;
-	private ObjectOutputStream outputStream;
-
 	//---------------------------------------------------------------------------
 	// * Constructeur
 	//---------------------------------------------------------------------------
-	public Client()
+	public Client(Socket socket)
 	{
-		connectToServer();
+		super(socket);
+		log((String) getObject());
 		input();
-	}
-
-	//---------------------------------------------------------------------------
-	// * Etablit la connexion et initialise les flots (I/O)
-	//---------------------------------------------------------------------------
-	public void connectToServer()
-	{
-		try {
-			socket = new Socket("localhost", 9090);
-
-			outputStream = new ObjectOutputStream(socket.getOutputStream());
-			inputStream  = new ObjectInputStream(socket.getInputStream());
-
-			log((String) getObject()); // affiche le message de bienvenue du serveur
-		} catch (IOException ex) {
-			System.out.println("Can't connect to server");
-		}
 	}
 
 	//---------------------------------------------------------------------------
@@ -104,48 +83,22 @@ class Client
 		}
 	}
 
-//---------------------------------------------------------------------------
-	// * Send object
 	//---------------------------------------------------------------------------
-	private void sendObject(Object object)
+	// * Get socket
+	// Tente d'établir une connexion avec le serveur.
+	//---------------------------------------------------------------------------
+	public static Socket getSocket() throws IOException
 	{
-		try {
-			outputStream.writeObject(object);
-			outputStream.flush();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	//---------------------------------------------------------------------------
-	// * Get object
-	//---------------------------------------------------------------------------
-	private Object getObject()
-	{
-		try {
-			Object object = inputStream.readObject();
-			return object;
-		} catch(IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	//---------------------------------------------------------------------------
-	// * Log
-	// Affiche un message sur la sortie standard du serveur.
-	//---------------------------------------------------------------------------
-	private void log(String message)
-	{
-		System.out.println(message);
+		Socket socket = new Socket("localhost", 9090);
+		return socket;
 	}
 
 	//---------------------------------------------------------------------------
 	// * Main
 	//---------------------------------------------------------------------------
-	public static void main(String[] args) throws Exception {
-		Client client = new Client();
+	public static void main(String[] args) throws Exception
+	{
+		Socket socket = getSocket();
+		Client client = new Client(socket);
 	}
 }

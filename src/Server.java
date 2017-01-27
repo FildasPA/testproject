@@ -17,7 +17,7 @@ public class Server
 {
 	private ServerSocket listener;
 	private boolean listening;
-	private Vector<ClientSessionHandler> clients;
+	private Vector<Thread> clients;
 	private Vector<SessionServer> sessions;
 
 	//---------------------------------------------------------------------------
@@ -27,12 +27,11 @@ public class Server
 	public Server()
 	{
 		setListener();
-		clients  = new Vector<ClientSessionHandler>();
+		clients  = new Vector<Thread>();
 		sessions = new Vector<SessionServer>();
 
-		System.out.println("Serveur démarré!");
+		System.out.println("\nServeur démarré!");
 		System.out.println("================\n");
-		// System.out.println();
 	}
 
 	//---------------------------------------------------------------------------
@@ -51,19 +50,25 @@ public class Server
 	//---------------------------------------------------------------------------
 	// * Listen
 	// Créer un nouveau thread et un nouveau socket à chaque fois qu'un client
-	// essaie de se connecter. Attribue à ce client un numéro, qui est la taille du
+	// essaie de se connecter. Attribue à ce client un numéro, qui est la taille
+	// du vecteur clients.
 	//---------------------------------------------------------------------------
 	public void listen() throws IOException
 	{
 		listening = true;
+		Socket socket;
+		ClientSessionHandler clientSession;
+		Thread clientThread;
+
 		while(listening) {
-			Socket clientSocket = listener.accept();
-			ClientSessionHandler client = new ClientSessionHandler(clientSocket,
-			                                                       clients.size(),
-			                                                       sessions);
-			clients.add(client);
-			client.start();
+			socket        = listener.accept();
+			clientSession = new ClientSessionHandler(socket,clients.size(),sessions);
+			clientThread  = new Thread(clientSession);
+
+			clients.add(clientThread);
+			clientThread.start();
 		}
+
 		listener.close();
 	}
 
