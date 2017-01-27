@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.Vector;
 
 //=============================================================================
 // ▼ Session
@@ -11,8 +12,12 @@ public class ClientSessionHandler extends Thread
 {
 	private Socket socket;
 	private int clientNumber;
-	private BufferedReader in;
-	private PrintWriter out;
+
+	// private BufferedReader in;
+	// private PrintWriter out;
+
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
 
 	private Vector<SessionServer> sessions; // liste des sessions ouvertes/en cours
 	private SessionServer session; // session à laquelle l'utilisateur participe
@@ -53,13 +58,19 @@ public class ClientSessionHandler extends Thread
 		this.session      = null;
 
 		try {
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out = new PrintWriter(socket.getOutputStream(), true);
+			// in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			// out = new PrintWriter(socket.getOutputStream(), true);
+
+			outputStream = new ObjectOutputStream(socket.getOutputStream());
+			inputStream  = new ObjectInputStream(socket.getInputStream());
+
 		} catch (IOException e) {
 			log(e.getMessage());
 		}
-		System.out.println("Nouvelle session établie avec #" + clientNumber);
+		log("nouvelle session établie");
 	}
+
+
 
 	//---------------------------------------------------------------------------
 	// * Run
@@ -69,33 +80,62 @@ public class ClientSessionHandler extends Thread
 	public void run()
 	{
 		try {
-			// Send a welcome message to the client.
-			out.println("Bienvenue #" + clientNumber + "!");
+			sendObject("Bienvenue #" + clientNumber + "!"); // message de bienvenue
+			String userInput;
+
 			while (true) {
-				String input = in.readLine();
-				if (input == null || input.equals(".")) {
-					break;
-				}
-				out.println(input.toUpperCase());
+				userInput = (String) getObject();
+				log("Reçu: " + userInput);
+				if (userInput == null)break;
+				sendObject(userInput.toUpperCase());
 			}
-		} catch (IOException e) {
-			log("Error handling client " + e);
+
 		} finally {
 			try {
 				socket.close();
 			} catch (IOException e) {
-				log("Couldn't close a socket, what's going on?");
+				log("couldn't close a socket, what's going on?");
 			}
-			log("Connexion #" + clientNumber + " terminée");
+			log("connexion terminée");
 		}
 	}
 
 	//---------------------------------------------------------------------------
+	// * Send object
+	//---------------------------------------------------------------------------
+	private void sendObject(Object object)
+	{
+		try {
+			outputStream.writeObject(object);
+			outputStream.flush();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get object
+	//---------------------------------------------------------------------------
+	private Object getObject()
+	{
+		try {
+			Object object = inputStream.readObject();
+			return object;
+		} catch(IOException e) {
+			// e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	//---------------------------------------------------------------------------
 	// * Log
-	// Affiche un message sur la sortie standard du serveur.
+	// Affiche un message sur la sortie standard du serveur. Indique le numéro
+	// du client avant le message.
 	//---------------------------------------------------------------------------
 	private void log(String message)
 	{
-			System.out.println(message);
+		System.out.println("#" + clientNumber + " " + message);
 	}
 }

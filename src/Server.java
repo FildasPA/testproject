@@ -29,6 +29,10 @@ public class Server
 		setListener();
 		clients  = new Vector<ClientSessionHandler>();
 		sessions = new Vector<SessionServer>();
+
+		System.out.println("Serveur démarré!");
+		System.out.println("================\n");
+		// System.out.println();
 	}
 
 	//---------------------------------------------------------------------------
@@ -54,7 +58,9 @@ public class Server
 		listening = true;
 		while(listening) {
 			Socket clientSocket = listener.accept();
-			ClientSessionHandler client = new ClientSessionHandler(clientSocket,clients.size());
+			ClientSessionHandler client = new ClientSessionHandler(clientSocket,
+			                                                       clients.size(),
+			                                                       sessions);
 			clients.add(client);
 			client.start();
 		}
@@ -67,10 +73,6 @@ public class Server
 	public static void main(String[] args) throws IOException
 	{
 		Server server = new Server();
-
-		System.out.println("Serveur démarré!");
-		System.out.println("================");
-		System.out.println();
 
 		server.listen();
 	}

@@ -1,8 +1,12 @@
-public class Session_Server extends Session {
+public class SessionServer extends Session
+{
+	public SessionServer()
+	{
+		super("lel",0,0,false);
+	}
 
-
-	Creator creator;
-	Vector<Voter> voters;
+	// Creator creator;
+	// Vector<Voter> voters;
 
 
 	/**
@@ -33,14 +37,14 @@ public class Session_Server extends Session {
 	 */
 	private void update()
 	{
-		while(!isFinished()) {
+		// while(!isFinished()) {
 			// Envoi l'id de la question suivante aux participants et au créateur de la session (aléatoire ou défini)
 			// Réception des réponses des votants... (Attente)
 				// Vérification de la réponse (réponse + stats (temps de réponse))
 			// Mise à jour des statistiques
 			// Envoi des statistiques à Session_Creator
 			// Envoi des résultats aux Session_Voter
-		}
+		// }
 	}
 
 	/**

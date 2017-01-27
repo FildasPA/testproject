@@ -11,8 +11,9 @@ import java.util.Scanner;
 class Client
 {
 	private Socket socket;
-	private BufferedReader in;
-	private PrintWriter out;
+
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
@@ -28,11 +29,13 @@ class Client
 	//---------------------------------------------------------------------------
 	public void connectToServer()
 	{
-	  try {
-	  	socket = new Socket("localhost", 9090);
-	  	in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	  	out = new PrintWriter(socket.getOutputStream(),true);
-	  	System.out.println(in.readLine()); // affiche le message de bienvenue du serveur
+		try {
+			socket = new Socket("localhost", 9090);
+
+			outputStream = new ObjectOutputStream(socket.getOutputStream());
+			inputStream  = new ObjectInputStream(socket.getInputStream());
+
+			log((String) getObject()); // affiche le message de bienvenue du serveur
 		} catch (IOException ex) {
 			System.out.println("Can't connect to server");
 		}
@@ -47,17 +50,15 @@ class Client
 	{
 		Scanner keyboard = new Scanner(System.in);
 		String response;
-		String line;
-		String[] input;
+		String[] userInput;
 
 		while(true) {
 			// Invite de commande
 			System.out.print("> ");
-			line = keyboard.nextLine().trim();
-			input = line.split(" ");
+			userInput = keyboard.nextLine().trim().split(" ");
 
 			// Interprète la commande
-			switch(input[0]) {
+			switch(userInput[0]) {
 
 				// Quitter
 				case "q":
@@ -66,24 +67,24 @@ class Client
 
 				// Actions sur les sessions
 				case "open-session":
-					System.out.println("Open session #" + input[1] + "!");
+					System.out.println("Open session #" + userInput[1] + "!");
 					break;
 				case "close-session":
-					System.out.println("Close session #" + input[1] + "!");
+					System.out.println("Close session #" + userInput[1] + "!");
 					break;
 				case "join-session":
-					System.out.println("Join session #" + input[1] + "!");
+					System.out.println("Join session #" + userInput[1] + "!");
 					break;
 				case "end-session":
-					System.out.println("End session #" + input[1] + "!");
+					System.out.println("End session #" + userInput[1] + "!");
 					break;
 				case "leave-session":
-					System.out.println("Leave session #" + input[1] + "!");
+					System.out.println("Leave session #" + userInput[1] + "!");
 					break;
 
 				// List
 				case "list":
-					switch(input[1]) {
+					switch(userInput[1]) {
 						case "open-sessions":
 							System.out.println("Open sessions:");
 							break;
@@ -94,16 +95,57 @@ class Client
 
 				// Défaut
 				default:
-					System.out.println("Commande non reconnue!");
+					// Renvoie la chaîne de caractères en majuscules
+					sendObject(userInput[0]);
+					String s = (String) getObject();
+					if(s == null) System.exit(0);
+					System.out.println("Read object: " + s);
 			}
-
 		}
+	}
+
+//---------------------------------------------------------------------------
+	// * Send object
+	//---------------------------------------------------------------------------
+	private void sendObject(Object object)
+	{
+		try {
+			outputStream.writeObject(object);
+			outputStream.flush();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get object
+	//---------------------------------------------------------------------------
+	private Object getObject()
+	{
+		try {
+			Object object = inputStream.readObject();
+			return object;
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Log
+	// Affiche un message sur la sortie standard du serveur.
+	//---------------------------------------------------------------------------
+	private void log(String message)
+	{
+		System.out.println(message);
 	}
 
 	//---------------------------------------------------------------------------
 	// * Main
 	//---------------------------------------------------------------------------
 	public static void main(String[] args) throws Exception {
-	  Client client = new Client();
+		Client client = new Client();
 	}
 }
