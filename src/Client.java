@@ -8,7 +8,7 @@ import java.util.Scanner;
 // ----------------------------------------------------------------------------
 // Etablit une connexion avec le serveur.
 //=============================================================================
-class Client extends ClientSession
+class Client extends FZSocket
 {
 	//---------------------------------------------------------------------------
 	// * Constructeur

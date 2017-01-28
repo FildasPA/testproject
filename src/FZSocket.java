@@ -2,12 +2,14 @@ import java.io.*;
 import java.net.*;
 
 //=============================================================================
-// ▼ ClientSession
+// ▼ FZSocket
 // ----------------------------------------------------------------------------
-// Définie les propriétés et méthodes nécessaires dans les classes
-// Client et ClientSessionHandler, notamment l'envoie et la réception d'objets.
+// Définie les propriétés et méthodes communes des classes Client et
+// ClientHandler, notamment:
+// - la définition d'un socket
+// - l'envoi et la réception d'objets
 //=============================================================================
-public abstract class ClientSession
+public abstract class FZSocket
 {
 	protected Socket socket;
 
@@ -18,7 +20,7 @@ public abstract class ClientSession
 	// * Constructeur
 	// Définit le socket et initialise les flots (I/O).
 	//---------------------------------------------------------------------------
-	public ClientSession(Socket socket)
+	public FZSocket(Socket socket)
 	{
 		this.socket = socket;
 		try {

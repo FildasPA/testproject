@@ -3,23 +3,24 @@ import java.net.*;
 import java.util.Vector;
 
 //=============================================================================
-// ▼ Session
+// ▼ ClientHandler
 // ----------------------------------------------------------------------------
 // Créée après l'établissement d'une connexion avec un utilisateur.
 // Gère les actions de l'utilisateur.
 //=============================================================================
-public class ClientSessionHandler extends ClientSession implements Runnable
+public class ClientHandler extends FZSocket implements Runnable
 {
 	private int clientNumber;
 
 	private Vector<SessionServer> sessions; // liste des sessions ouvertes/en cours
 	private SessionServer session; // session à laquelle l'utilisateur participe
 
+
 	/*
 	Il faut bien comprendre que cette SessionServer n'est pas dédiée à un seul
 	client mais partagée avec tous les participants d'une même session de vote.
 	-----------------------------------------------------------------------------
-	Cet objet (ClientSessionHandler) gère la connexion entre le serveur et le
+	Cet objet (ClientHandler) gère la connexion entre le serveur et le
 	programme	client (Client). Il joue le rôle d'intermédiaire entre
 	SessionServer et les sessions des utilisateurs (SessionMaster ou
 	SessionUser).
@@ -33,7 +34,7 @@ public class ClientSessionHandler extends ClientSession implements Runnable
 	SessionMaster.
 	Tout autre programme client qui essaiera de rejoindre cette session de vote
 	créera un nouvel objet SessionVoter. Son gestionnaire de connexion
-	(ClientSessionHandler) se	chargera de lier cet utilisateur au SessionServer
+	(ClientHandler) se	chargera de lier cet utilisateur au SessionServer
 	correspondant à la session voulue.
 	*/
 
@@ -41,7 +42,7 @@ public class ClientSessionHandler extends ClientSession implements Runnable
 	// * Constructeur
 	// Définit le socket et initialise les flots (I/O).
 	//---------------------------------------------------------------------------
-	public ClientSessionHandler(Socket socket, int clientNumber,
+	public ClientHandler(Socket socket, int clientNumber,
 	                            Vector<SessionServer> sessions)
 	{
 		super(socket);
@@ -66,7 +67,7 @@ public class ClientSessionHandler extends ClientSession implements Runnable
 			while (true) {
 				userInput = (String) getObject();
 				log("Reçu: " + userInput);
-				if (userInput == null)break;
+				if (userInput == null) break;
 				sendObject(userInput.toUpperCase());
 			}
 

@@ -57,13 +57,13 @@ public class Server
 	{
 		listening = true;
 		Socket socket;
-		ClientSessionHandler clientSession;
+		ClientHandler clientHandler;
 		Thread clientThread;
 
 		while(listening) {
 			socket        = listener.accept();
-			clientSession = new ClientSessionHandler(socket,clients.size(),sessions);
-			clientThread  = new Thread(clientSession);
+			clientHandler = new ClientHandler(socket,clients.size(),sessions);
+			clientThread  = new Thread(clientHandler);
 
 			clients.add(clientThread);
 			clientThread.start();
