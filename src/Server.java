@@ -1,11 +1,8 @@
 import java.net.*;
 import java.io.IOException;
-import java.util.Vector;
 
-// Tutoriels/sources :
-// http://www.oracle.com/technetwork/java/socket-140484.html#
-// http://cs.lmu.edu/~ray/notes/javanetexamples/
-// http://stackoverflow.com/questions/5419328/multiple-client-to-server-communication-program-in-java
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 //=============================================================================
 // ▼ Server
@@ -17,8 +14,6 @@ public class Server
 {
 	private ServerSocket listener;
 	private boolean listening;
-	private Vector<Thread> clients;
-	private Vector<SessionServer> sessions;
 
 	//---------------------------------------------------------------------------
 	// * Constructor
@@ -27,8 +22,6 @@ public class Server
 	public Server()
 	{
 		setListener();
-		clients  = new Vector<Thread>();
-		sessions = new Vector<SessionServer>();
 
 		System.out.println("\nServeur démarré!");
 		System.out.println("================\n");
@@ -56,16 +49,15 @@ public class Server
 	public void listen() throws IOException
 	{
 		listening = true;
+
 		Socket socket;
 		ClientHandler clientHandler;
 		Thread clientThread;
 
 		while(listening) {
 			socket        = listener.accept();
-			clientHandler = new ClientHandler(socket,clients.size(),sessions);
+			clientHandler = new ClientHandler(socket);
 			clientThread  = new Thread(clientHandler);
-
-			clients.add(clientThread);
 			clientThread.start();
 		}
 
@@ -78,7 +70,7 @@ public class Server
 	public static void main(String[] args) throws IOException
 	{
 		Server server = new Server();
-
+		ClientHandler.initialize();
 		server.listen();
 	}
 }

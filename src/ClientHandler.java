@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.*;
-import java.util.Vector;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 //=============================================================================
 // ▼ ClientHandler
@@ -10,45 +12,47 @@ import java.util.Vector;
 //=============================================================================
 public class ClientHandler extends FZSocket implements Runnable
 {
-	private int clientNumber;
+	private static Integer clientsNumber; // nombre de clients qui se sont connectés
+	private static Integer sessionsNumber; // nombre de sessions de vote démarrées
 
-	private Vector<SessionServer> sessions; // liste des sessions ouvertes/en cours
+	private static Map<Integer,ClientHandler> clients; // liste des clients qui se sont connectés
+	private static Map<Integer,SessionServer> sessions; // liste des sessions de vote démarrées
+
+	private Integer clientNumber; // numéro du client attribué
 	private SessionServer session; // session à laquelle l'utilisateur participe
 
+	//---------------------------------------------------------------------------
+	// * Initialize
+	//---------------------------------------------------------------------------
+	public static void initialize()
+	{
+		clientsNumber  = 0;
+		sessionsNumber = 0;
 
-	/*
-	Il faut bien comprendre que cette SessionServer n'est pas dédiée à un seul
-	client mais partagée avec tous les participants d'une même session de vote.
-	-----------------------------------------------------------------------------
-	Cet objet (ClientHandler) gère la connexion entre le serveur et le
-	programme	client (Client). Il joue le rôle d'intermédiaire entre
-	SessionServer et les sessions des utilisateurs (SessionMaster ou
-	SessionUser).
-	Le vecteur SessionServer permet simplement d'avoir accès à la liste des
-	sessions ouvertes ou en cours.
-	-----------------------------------------------------------------------------
-	Ouvrir une nouvelle session de vote revient à créer un nouvel objet
-	SessionServer et à l'insérer dans le vecteur 'sessions'.
-	L'utilisateur courant (de ce thread) est défini comme chef de la session, et
-	le programme client (Client) de celui-ci créera en réponse un objet
-	SessionMaster.
-	Tout autre programme client qui essaiera de rejoindre cette session de vote
-	créera un nouvel objet SessionVoter. Son gestionnaire de connexion
-	(ClientHandler) se	chargera de lier cet utilisateur au SessionServer
-	correspondant à la session voulue.
-	*/
+		clients  = new ConcurrentHashMap<Integer,ClientHandler>();
+		sessions = new ConcurrentHashMap<Integer,SessionServer>();
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get clients number
+	//---------------------------------------------------------------------------
+	public Integer getClientsNumber()
+	{
+		return clientsNumber;
+	}
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
 	// Définit le socket et initialise les flots (I/O).
 	//---------------------------------------------------------------------------
-	public ClientHandler(Socket socket, int clientNumber,
-	                            Vector<SessionServer> sessions)
+	public ClientHandler(Socket socket)
 	{
 		super(socket);
-		this.clientNumber = clientNumber;
-		this.sessions     = sessions;
-		this.session      = null;
+
+		this.clientNumber = clientsNumber++;
+		clients.put(clientNumber,this);
+
+		this.session = null;
 
 		log("nouvelle session établie");
 	}
@@ -86,7 +90,7 @@ public class ClientHandler extends FZSocket implements Runnable
 	// Affiche un message sur la sortie standard du serveur. Indique le numéro
 	// du client avant le message.
 	//---------------------------------------------------------------------------
-	protected void log(String message)
+	public void log(String message)
 	{
 		super.log("#" + clientNumber + " " + message);
 	}

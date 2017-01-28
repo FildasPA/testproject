@@ -64,7 +64,7 @@ public abstract class FZSocket
 	// * Log
 	// Affiche un message sur la sortie standard du serveur.
 	//---------------------------------------------------------------------------
-	protected void log(String message)
+	public void log(String message)
 	{
 		System.out.println(message);
 	}
