@@ -29,15 +29,17 @@ class Client extends FZSocket
 	{
 		Scanner keyboard = new Scanner(System.in);
 		String response;
-		String[] userInput;
+		String userInput;
+		String[] userInputs;
 
 		while(true) {
 			// Invite de commande
 			System.out.print("> ");
-			userInput = keyboard.nextLine().trim().split(" ");
+			userInput = keyboard.nextLine().trim();
+			userInputs = userInput.split(" ");
 
 			// Interprète la commande
-			switch(userInput[0]) {
+			switch(userInputs[0]) {
 
 				// Quitter
 				case "q":
@@ -46,24 +48,24 @@ class Client extends FZSocket
 
 				// Actions sur les sessions
 				case "open-session":
-					System.out.println("Open session #" + userInput[1] + "!");
+					System.out.println("Open session #" + userInputs[1] + "!");
 					break;
 				case "close-session":
-					System.out.println("Close session #" + userInput[1] + "!");
+					System.out.println("Close session #" + userInputs[1] + "!");
 					break;
 				case "join-session":
-					System.out.println("Join session #" + userInput[1] + "!");
+					System.out.println("Join session #" + userInputs[1] + "!");
 					break;
 				case "end-session":
-					System.out.println("End session #" + userInput[1] + "!");
+					System.out.println("End session #" + userInputs[1] + "!");
 					break;
 				case "leave-session":
-					System.out.println("Leave session #" + userInput[1] + "!");
+					System.out.println("Leave session #" + userInputs[1] + "!");
 					break;
 
 				// List
 				case "list":
-					switch(userInput[1]) {
+					switch(userInputs[1]) {
 						case "open-sessions":
 							System.out.println("Open sessions:");
 							break;
@@ -75,10 +77,11 @@ class Client extends FZSocket
 				// Défaut
 				default:
 					// Renvoie la chaîne de caractères en majuscules
-					sendObject(userInput[0]);
+					sendObject(userInput);
+					System.out.println("Envoyé: " + userInput);
 					String s = (String) getObject();
 					if(s == null) System.exit(0);
-					System.out.println("Read object: " + s);
+					System.out.println("Reçu:   " + s);
 			}
 		}
 	}
