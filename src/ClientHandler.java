@@ -13,13 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClientHandler extends FZSocket implements Runnable
 {
 	private static Integer clientsNumber; // nombre de clients qui se sont connectés
-	private static Integer sessionsNumber; // nombre de sessions de vote démarrées
-
 	private static Map<Integer,ClientHandler> clients; // liste des clients qui se sont connectés
-	private static Map<Integer,SessionServer> sessions; // liste des sessions de vote démarrées
+
+	// private static Integer sessionsNumber; // nombre de sessions de vote démarrées
+	// private static Map<Integer,SessionServer> sessions; // liste des sessions de vote démarrées
 
 	private Integer clientNumber; // numéro du client attribué
-	private SessionServer session; // session à laquelle l'utilisateur participe
+	// private SessionServer session; // session à laquelle l'utilisateur participe (actuellement)
 
 	//---------------------------------------------------------------------------
 	// * Initialize
@@ -27,18 +27,10 @@ public class ClientHandler extends FZSocket implements Runnable
 	public static void initialize()
 	{
 		clientsNumber  = 0;
-		sessionsNumber = 0;
+		// sessionsNumber = 0;
 
 		clients  = new ConcurrentHashMap<Integer,ClientHandler>();
-		sessions = new ConcurrentHashMap<Integer,SessionServer>();
-	}
-
-	//---------------------------------------------------------------------------
-	// * Get clients number
-	//---------------------------------------------------------------------------
-	public Integer getClientsNumber()
-	{
-		return clientsNumber;
+		// sessions = new ConcurrentHashMap<Integer,SessionServer>();
 	}
 
 	//---------------------------------------------------------------------------
@@ -52,7 +44,7 @@ public class ClientHandler extends FZSocket implements Runnable
 		this.clientNumber = clientsNumber++;
 		clients.put(clientNumber,this);
 
-		this.session = null;
+		// this.session = null;
 
 		log("nouvelle session établie");
 	}
