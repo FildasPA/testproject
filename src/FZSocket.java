@@ -6,7 +6,7 @@ import java.net.*;
 // ----------------------------------------------------------------------------
 // Définie les propriétés et méthodes communes des classes Client et
 // ClientHandler, notamment:
-// - la définition d'un socket
+// - l'initialisation des flots (I/O) sur un socket
 // - l'envoi et la réception d'objets
 //=============================================================================
 public abstract class FZSocket
@@ -62,7 +62,7 @@ public abstract class FZSocket
 
 	//---------------------------------------------------------------------------
 	// * Log
-	// Affiche un message sur la sortie standard du serveur.
+	// Affiche un message sur la sortie standard.
 	//---------------------------------------------------------------------------
 	public void log(String message)
 	{

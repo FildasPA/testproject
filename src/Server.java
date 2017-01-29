@@ -16,8 +16,7 @@ public class Server
 	private boolean listening;
 
 	//---------------------------------------------------------------------------
-	// * Constructor
-	// Initialise les vecteurs des clients et des sessions de vote.
+	// * Constructeur
 	//---------------------------------------------------------------------------
 	public Server()
 	{
@@ -28,7 +27,7 @@ public class Server
 	}
 
 	//---------------------------------------------------------------------------
-	// * Set listner
+	// * Set listener
 	//---------------------------------------------------------------------------
 	private void setListener()
 	{
@@ -42,9 +41,8 @@ public class Server
 
 	//---------------------------------------------------------------------------
 	// * Listen
-	// Créer un nouveau thread et un nouveau socket à chaque fois qu'un client
-	// essaie de se connecter. Attribue à ce client un numéro, qui est la taille
-	// du vecteur clients.
+	// Créer un nouveau socket et un nouveau thread à chaque fois qu'un client
+	// essaie de se connecter.
 	//---------------------------------------------------------------------------
 	public void listen() throws IOException
 	{
