@@ -6,7 +6,7 @@ import java.net.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import lib.FZSocket;
+import net.SocketStreams;
 
 //=============================================================================
 // ▼ ClientHandler
@@ -24,7 +24,7 @@ public class ClientHandler implements Runnable
 
 	// private static ConnexionBdd bdd; // TODO RES-BDD
 
-	FZSocket client;
+	SocketStreams client;
 	private Integer clientNumber; // numéro du client attribué
 	// private SessionServer session; // session à laquelle l'utilisateur participe (actuellement)
 
@@ -48,12 +48,12 @@ public class ClientHandler implements Runnable
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
-	// Définit le numéro client et créer l'objet FZSocket pour initialiser les
-	// flots (I/O).
+	// Définit le numéro client et créer un objet SocketStreams qui établit des
+	// flots (I/O) avec le client.
 	//---------------------------------------------------------------------------
 	public ClientHandler(Socket socket)
 	{
-		client = new FZSocket(socket);
+		client = new SocketStreams(socket);
 
 		this.clientNumber = clientsNumber++;
 		clients.put(clientNumber,this);

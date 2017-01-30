@@ -1,16 +1,16 @@
-package lib;
+package net;
 
 import java.io.*;
 import java.net.*;
 
 //=============================================================================
-// ▼ FZSocket
+// ▼ SocketStreams
 // ----------------------------------------------------------------------------
 // Permet:
 // - l'initialisation des flots (I/O) sur un socket
-// - l'envoi et la réception d'objets
+// - l'envoi et la réception d'objets sur ce socket
 //=============================================================================
-public class FZSocket
+public class SocketStreams
 {
 	protected Socket socket;
 
@@ -21,7 +21,7 @@ public class FZSocket
 	// * Constructeur
 	// Initialise les flots (I/O) à partir d'un socket passé en paramètre.
 	//---------------------------------------------------------------------------
-	public FZSocket(Socket socket)
+	public SocketStreams(Socket socket)
 	{
 		this.socket = socket;
 		try {

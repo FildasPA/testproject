@@ -3,7 +3,7 @@ import java.net.*;
 
 import java.util.Scanner;
 
-import lib.FZSocket;
+import net.SocketStreams;
 
 //=============================================================================
 // ▼ Client
@@ -12,12 +12,12 @@ import lib.FZSocket;
 //=============================================================================
 class Client
 {
-	private FZSocket server;
+	private SocketStreams server;
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
 	//---------------------------------------------------------------------------
-	public Client(FZSocket server)
+	public Client(SocketStreams server)
 	{
 		this.server = server;
 		log((String) server.getObject());
@@ -111,11 +111,13 @@ class Client
 
 	//---------------------------------------------------------------------------
 	// * Main
+	// Etablit une connexion avec le serveur et prend en charge les actions de
+	// l'utilisateur.
 	//---------------------------------------------------------------------------
 	public static void main(String[] args) throws Exception
 	{
 		Socket socketServer = getServerSocket();
-		FZSocket server = new FZSocket(socketServer);
+		SocketStreams server = new SocketStreams(socketServer);
 		Client client = new Client(server);
 	}
 }
