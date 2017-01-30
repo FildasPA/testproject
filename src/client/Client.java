@@ -10,15 +10,17 @@ import lib.FZSocket;
 // ----------------------------------------------------------------------------
 // Etablit une connexion avec le serveur.
 //=============================================================================
-class Client extends FZSocket
+class Client
 {
+	private FZSocket server;
+
 	//---------------------------------------------------------------------------
 	// * Constructeur
 	//---------------------------------------------------------------------------
-	public Client(Socket socket)
+	public Client(FZSocket server)
 	{
-		super(socket);
-		log((String) getObject());
+		this.server = server;
+		log((String) server.getObject());
 		input();
 	}
 
@@ -45,54 +47,63 @@ class Client extends FZSocket
 
 				// Quitter
 				case "q":
-					System.out.println("Bye!");
+					log("Bye!");
 					return;
 
 				// Actions sur les sessions
 				case "open-session":
-					System.out.println("Open session #" + userInputs[1] + "!");
+					log("Open session #" + userInputs[1] + "!");
 					break;
 				case "close-session":
-					System.out.println("Close session #" + userInputs[1] + "!");
+					log("Close session #" + userInputs[1] + "!");
 					break;
 				case "join-session":
-					System.out.println("Join session #" + userInputs[1] + "!");
+					log("Join session #" + userInputs[1] + "!");
 					break;
 				case "end-session":
-					System.out.println("End session #" + userInputs[1] + "!");
+					log("End session #" + userInputs[1] + "!");
 					break;
 				case "leave-session":
-					System.out.println("Leave session #" + userInputs[1] + "!");
+					log("Leave session #" + userInputs[1] + "!");
 					break;
 
 				// List
 				case "list":
 					switch(userInputs[1]) {
 						case "open-sessions":
-							System.out.println("Open sessions:");
+							log("Open sessions:");
 							break;
 						default:
-							System.out.println("Liste non reconnue!");
+							log("Liste non reconnue!");
 					}
 					break;
 
 				// Défaut
 				default:
 					// Renvoie la chaîne de caractères en majuscules
-					sendObject(userInput);
-					System.out.println("Envoyé: " + userInput);
-					String s = (String) getObject();
+					server.sendObject(userInput);
+					log("Envoyé: " + userInput);
+					String s = (String) server.getObject();
 					if(s == null) System.exit(0);
-					System.out.println("Reçu:   " + s);
+					log("Reçu:   " + s);
 			}
 		}
 	}
 
 	//---------------------------------------------------------------------------
-	// * Get socket
+	// * Log
+	// Affiche un message sur la sortie standard.
+	//---------------------------------------------------------------------------
+	public void log(String message)
+	{
+		System.out.println(message);
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get server socket
 	// Tente d'établir une connexion avec le serveur.
 	//---------------------------------------------------------------------------
-	public static Socket getSocket() throws IOException
+	public static Socket getServerSocket() throws IOException
 	{
 		Socket socket = new Socket("localhost", 9090);
 		return socket;
@@ -103,7 +114,8 @@ class Client extends FZSocket
 	//---------------------------------------------------------------------------
 	public static void main(String[] args) throws Exception
 	{
-		Socket socket = getSocket();
-		Client client = new Client(socket);
+		Socket socketServer = getServerSocket();
+		FZSocket server = new FZSocket(socketServer);
+		Client client = new Client(server);
 	}
 }

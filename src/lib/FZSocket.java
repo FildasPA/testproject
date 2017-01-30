@@ -6,12 +6,11 @@ import java.net.*;
 //=============================================================================
 // ▼ FZSocket
 // ----------------------------------------------------------------------------
-// Définie les propriétés et méthodes communes des classes Client et
-// ClientHandler, notamment:
+// Permet:
 // - l'initialisation des flots (I/O) sur un socket
 // - l'envoi et la réception d'objets
 //=============================================================================
-public abstract class FZSocket
+public class FZSocket
 {
 	protected Socket socket;
 
@@ -20,7 +19,7 @@ public abstract class FZSocket
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
-	// Définit le socket et initialise les flots (I/O).
+	// Initialise les flots (I/O) à partir d'un socket passé en paramètre.
 	//---------------------------------------------------------------------------
 	public FZSocket(Socket socket)
 	{
@@ -36,7 +35,7 @@ public abstract class FZSocket
 	//---------------------------------------------------------------------------
 	// * Send object
 	//---------------------------------------------------------------------------
-	protected void sendObject(Object object)
+	public void sendObject(Object object)
 	{
 		try {
 			outputStream.writeObject(object);
@@ -49,7 +48,7 @@ public abstract class FZSocket
 	//---------------------------------------------------------------------------
 	// * Get object
 	//---------------------------------------------------------------------------
-	protected Object getObject()
+	public Object getObject()
 	{
 		try {
 			Object object = inputStream.readObject();
@@ -60,6 +59,14 @@ public abstract class FZSocket
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Close socket
+	//---------------------------------------------------------------------------
+	public void closeSocket() throws IOException
+	{
+		socket.close();
 	}
 
 	//---------------------------------------------------------------------------
