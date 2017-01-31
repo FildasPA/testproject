@@ -1,16 +1,13 @@
 import java.net.*;
 import java.io.IOException;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import server.*;
+import server.ClientHandler;
 
 //=============================================================================
 // ▼ Server
 // ----------------------------------------------------------------------------
 // Démarre une nouvelle session (ClientSession) pour chaque client connecté.
-// Fonctionne en local pour les tests.
+// Fonctionne actuellement en local pour les tests.
 //=============================================================================
 public class Server
 {
@@ -66,11 +63,12 @@ public class Server
 
 	//---------------------------------------------------------------------------
 	// * Main
+	// Initialise le serveur et démarre l'écoute.
 	//---------------------------------------------------------------------------
 	public static void main(String[] args) throws IOException
 	{
 		Server server = new Server();
-		ClientHandler.initialize();
+		// ConnexionBDD.connect(); // TODO RES-BDD : voir ConnexionBDD.java
 		server.listen();
 	}
 }

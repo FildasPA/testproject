@@ -3,10 +3,10 @@ package server;
 import java.io.*;
 import java.net.*;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.SocketStreams;
+import server.Clients;
+// import server.ConnexionBDD; // TODO RES-BDD: à renommer
+import sessionvoting.server.*;
 
 //=============================================================================
 // ▼ ClientHandler
@@ -16,35 +16,10 @@ import net.SocketStreams;
 //=============================================================================
 public class ClientHandler implements Runnable
 {
-	private static Integer clientsNumber; // nombre de clients qui se sont connectés
-	private static Map<Integer,ClientHandler> clients; // liste des clients qui se sont connectés
-
-	// private static Integer sessionsNumber; // nombre de sessions de vote démarrées
-	// private static Map<Integer,SessionServer> sessions; // liste des sessions de vote démarrées
-
-	// private static ConnexionBdd bdd; // TODO RES-BDD
-
-	SocketStreams client;
-	private Integer clientNumber; // numéro du client attribué
-	// private SessionServer session; // session à laquelle l'utilisateur participe (actuellement)
-
-	//---------------------------------------------------------------------------
-	// * Initialize
-	// Initialise les variables statiques de la classe. C'est à dire:
-	// - le nombre de clients qui se sont connectés
-	// - la liste des clients connectés
-	// - le nombre de sessions qui ont été ouvertes
-	// - la liste des sessions ouvertes
-	// - TODO RES-BDD: la connexion à la base de données
-	//---------------------------------------------------------------------------
-	public static void initialize()
-	{
-		clientsNumber  = 0;
-		// sessionsNumber = 0;
-
-		clients  = new ConcurrentHashMap<Integer,ClientHandler>();
-		// sessions = new ConcurrentHashMap<Integer,SessionServer>();
-	}
+	private Integer clientId; // numéro du client attribué
+	private Integer userId; // id du client
+	SocketStreams client; // connexion avec le client
+	// private SessionServer session; // session à laquelle le client participe (actuellement)
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
@@ -96,6 +71,22 @@ public class ClientHandler implements Runnable
 			log("connexion terminée");
 		}
 	}
+
+	//---------------------------------------------------------------------------
+	// * Get client id
+	//---------------------------------------------------------------------------
+	public Integer getClientId()
+	{
+		return clientId;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get user id
+	//---------------------------------------------------------------------------
+	// public Integer getUserId()
+	// {
+	// 	return userId;
+	// }
 
 	//---------------------------------------------------------------------------
 	// * Log
