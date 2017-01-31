@@ -1,4 +1,4 @@
-package sessionvoting.server;
+package controller.session.server;
 
 import java.io.*;
 import java.net.*;
@@ -28,8 +28,8 @@ public class Sessions
 	public void add(Integer sessionId, Integer idClientMaster)
 	{
 		// Session sessionData = ConnexionBDD.getSessionById(sessionId);
-		// SessionServer sessionServer = new SessionServer()
-		// sessions.put(session);
+		// SessionServer sessionServer = new SessionServer();
+		sessions.put(sessionServer);
 	}
 
 	//---------------------------------------------------------------------------

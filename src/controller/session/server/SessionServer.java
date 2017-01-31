@@ -1,4 +1,4 @@
-package votingsession.server;
+package controller.session.server;
 
 import java.io.*;
 
