@@ -3,7 +3,9 @@ package server.lib;
 import java.io.*;
 import java.net.*;
 
-import net.SocketStreams;
+import lib.net.SocketStreams;
+import lib.net.Request;
+
 import server.lib.context.*;
 import server.controller.MainController;
 // import server.ConnexionBDD; // TODO RES-BDD: à renommer
@@ -42,18 +44,22 @@ public class ClientHandler implements Runnable
 	// Note: Cette fonction est définie par la classe Runnable. Elle est appelée
 	// lorsque l'on démarre le Thread du client (cad clientThread.start() dans
 	// Server.java).
-	//---------------------------------------------------------------------------
 	//===========================================================================
 	public void run()
 	{
 		try {
+			Request request;
+			Object object;
+
 			client.sendObject("Bienvenue #" + clientId + "!"); // message de bienvenue
-			Object receivedObject;
+
 			while (true) {
-				receivedObject = (String) client.getObject();
-				if(receivedObject == null) break;
-				log("reçu:   " + receivedObject.toString());
-				MainController.callAppropriateAction(this,receivedObject);
+				request = client.getRequest();
+				if(request == null) break;
+				// receivedObject = (String) client.getObject();
+				// if(receivedObject == null) break;
+				// log("reçu: " + request.getObject().toString());
+				MainController.callAppropriateAction(this,request);
 			}
 
 		} finally {

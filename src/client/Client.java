@@ -11,7 +11,7 @@ import client.controller.MainController;
 // Appelle la vue appropriée.
 // Appelle l'action par défaut.
 //=============================================================================
-class Client
+class Client extends MainController
 {
 	private SocketStreams server;
 

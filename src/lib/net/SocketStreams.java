@@ -8,7 +8,7 @@ import java.net.*;
 // ----------------------------------------------------------------------------
 // Permet:
 // - l'initialisation des flots (I/O) sur un socket
-// - l'envoi et la réception d'objets par ce socket
+// - l'envoi et la réception de requêtes (de type Request) par ce socket
 //=============================================================================
 public class SocketStreams
 {
@@ -47,12 +47,47 @@ public class SocketStreams
 
 	//---------------------------------------------------------------------------
 	// * Get object
+	// Récupère et retourne un objet.
 	//---------------------------------------------------------------------------
 	public Object getObject()
 	{
 		try {
 			Object object = inputStream.readObject();
 			return object;
+		} catch(IOException e) {
+			// e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Send request
+	// Crée et envoie un objet Request.
+	//---------------------------------------------------------------------------
+	public void sendRequest(String action, Object object)
+	{
+		try {
+			System.out.println("action: " + action);
+			System.out.println("object: " + object.toString());
+			// Request request = new Request(action,object);
+			outputStream.writeObject(new Request(action,object));
+			outputStream.flush();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get object
+	// Récupère et retourne un objet Request.
+	//---------------------------------------------------------------------------
+	public Request getRequest()
+	{
+		try {
+			Request request = (Request) inputStream.readObject();
+			return request;
 		} catch(IOException e) {
 			// e.printStackTrace();
 		} catch (ClassNotFoundException e) {

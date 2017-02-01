@@ -3,6 +3,7 @@ package client.controller;
 import java.util.Scanner;
 
 import lib.net.SocketStreams;
+import lib.net.Request;
 
 // Déterminer et appeler l'action appropriée correspondant à l'action effectuée par l'utilisateur sur la vue
 
@@ -67,16 +68,22 @@ public abstract class MainController
 					}
 					break;
 
-				// Défaut
 				default:
-					// Renvoie la chaîne de caractères en majuscules
-					server.sendObject(userInput);
-					log("Envoyé: " + userInput);
-					String s = (String) server.getObject();
-					if(s == null) System.exit(0);
-					log("Reçu:   " + s);
+					capitalize(server,userInput);
 			}
 		}
+	}
+
+	//---------------------------------------------------------------------------
+	// * Capitalize
+	// Renvoie la chaîne de caractères en majuscules
+	//---------------------------------------------------------------------------
+	public static void capitalize(SocketStreams server, String userInput)
+	{
+		server.sendRequest("capitalize",userInput);
+		String s = (String) server.getObject();
+		if(s == null) System.exit(0);
+		log("Reçu:   " + s);
 	}
 
 	//---------------------------------------------------------------------------
