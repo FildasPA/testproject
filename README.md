@@ -1,11 +1,24 @@
 # FlashQuiz
 
-Remarque:
-contrairement au projet de conception web, les contrôleurs dans server sont instanciables (sauf Main)
+__Compilation:__
 
-Question:
-Les contrôleurs SessionTruc, Edit, ... doivent-ils êtres instanciables ou non?
+```
+make
+```
 
+__Exécution serveur:__
+
+```
+java -cp bin Serveur
+```
+
+__Exécution client(s):__
+
+```
+java -cp bin Client
+```
+
+---
 
 Modèle type d'une action d'un contrôleur:
 
@@ -22,9 +35,6 @@ Modèle type d'une action d'un contrôleur:
 public static void capitalize(ClientHandler client, Object object) {
 	public void run()
 	{
-		// Pour Server : On peut utiliser les classes context! (Sessions & Clients)
-		String userInput;
-		userInput = (String) client.getObject();
 		client.sendObject(userInput.toUpperCase());
 	}
 }
