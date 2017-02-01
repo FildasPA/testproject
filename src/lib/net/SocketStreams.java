@@ -8,7 +8,7 @@ import java.net.*;
 // ----------------------------------------------------------------------------
 // Permet:
 // - l'initialisation des flots (I/O) sur un socket
-// - l'envoi et la réception d'objets sur ce socket
+// - l'envoi et la réception d'objets par ce socket
 //=============================================================================
 public class SocketStreams
 {

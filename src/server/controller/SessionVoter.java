@@ -1,8 +1,8 @@
-package controller.session.server;
+package server.controller;
 
 // TODO TVS - Déroulement SessionVoter (côté serveur)
 
-public class SessionVoter
+public abstract class SessionVoter
 {
 
 }

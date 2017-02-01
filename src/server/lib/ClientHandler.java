@@ -1,4 +1,4 @@
-package server;
+package server.lib;
 
 import java.io.*;
 import java.net.*;
@@ -12,7 +12,6 @@ import sessionvoting.server.*;
 // ▼ ClientHandler
 // ----------------------------------------------------------------------------
 // Créée après l'établissement d'une connexion avec un utilisateur.
-// Gère les actions de l'utilisateur.
 //=============================================================================
 public class ClientHandler implements Runnable
 {
@@ -39,7 +38,7 @@ public class ClientHandler implements Runnable
 	}
 
 	//===========================================================================
-	// * Run
+	// * Run ❯❯ A déplacer dans Main.java
 	// Définit l'enchaînement des intéractions avec le client.
 	//---------------------------------------------------------------------------
 	// Note: Cette fonction est définie par la classe Runnable. Elle est appelée

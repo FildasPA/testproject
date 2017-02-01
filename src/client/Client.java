@@ -9,6 +9,8 @@ import net.SocketStreams;
 // ▼ Client
 // ----------------------------------------------------------------------------
 // Etablit une connexion avec le serveur.
+// Appelle la vue appropriée.
+// Appelle l'action par défaut.
 //=============================================================================
 class Client
 {

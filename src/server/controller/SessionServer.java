@@ -1,4 +1,4 @@
-package controller.session.server;
+package server.controller;
 
 import java.io.*;
 
@@ -6,7 +6,7 @@ import server.Clients;
 import server.ConnexionBDD;
 
 //=============================================================================
-// ▼ SessionServer
+// ▼ SessionServer => peut fonctionner en abstrait?
 // ----------------------------------------------------------------------------
 // Pour chaque session de vote en cours, une instance de cette classe
 // s'exécute sur le serveur de manière asynchrone.

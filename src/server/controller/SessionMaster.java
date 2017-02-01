@@ -1,8 +1,8 @@
-package controller.session.server;
+package server.controller;
 
 // TODO TVS - Déroulement SessionMaster (côté serveur)
 
-public class SessionMaster
+public abstract class SessionMaster
 {
 
 }

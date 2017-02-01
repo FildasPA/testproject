@@ -1,4 +1,4 @@
-package server;
+package server.lib;
 
 // TODO RES-BDD
 
@@ -6,14 +6,14 @@ package server;
 // ▼ ConnexionBDD -- Renommez cela comme vous voulez
 // ----------------------------------------------------------------------------
 // Etablit une connexion avec la bdd.
-// Si ça se trouve, cette classe peut être abstraite (non instanciable).
-// Ainsi, on n'établit qu'une seule connexion quand on lance le serveur, et
-// on l'utilise à chaque fois qu'il y en a besoin.
+// Cette classe étant abstraite, on n'établit qu'une seule connexion quand on
+// lance le serveur, et on l'utilise à chaque fois qu'on en a besoin.
 // TODO:
 // - il faut trouver un moyen pour n'autoriser qu'une seule action sur la bdd
-// à la fois (qu'une seule fonction sur l'objet connexion).
+// à la fois (qu'une seule fonction sur l'objet connexion). Sauf s'il y a moyen
+// qu'elle puisse en gérer plusieurs à la fois bien sûr...
 //=============================================================================
-public class ConnexionBDD // renommer.
+public abstract class ConnexionBDD // renommer
 {
 	private static Type connexion; // Je sais pas le type ^^
 
@@ -44,22 +44,4 @@ public class ConnexionBDD // renommer.
 	*   }
 	* }
 	===========================================================================*/
-
-	//---------------------------------------------------------------------------
-	// * Save List
-	//---------------------------------------------------------------------------
-	public static saveList(List list)
-	{
-		ListHandler.saveList(list);
-	}
-
-	//---------------------------------------------------------------------------
-	// * Save question
-	//---------------------------------------------------------------------------
-	public static saveList(Question question)
-	{
-		QuestionHandler.saveQuestion(question);
-	}
-
-	// etc.
 }
