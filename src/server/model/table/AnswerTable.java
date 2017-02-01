@@ -1,4 +1,4 @@
-package server.table;
+package server.model.table;
 
 //=============================================================================
 // ▼ AnswerTable

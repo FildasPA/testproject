@@ -4,9 +4,10 @@ import java.io.*;
 import java.net.*;
 
 import net.SocketStreams;
-import server.Clients;
+import server.lib.context.*;
+import server.controller.MainController;
 // import server.ConnexionBDD; // TODO RES-BDD: à renommer
-import sessionvoting.server.*;
+// import sessionvoting.server.*;
 
 //=============================================================================
 // ▼ ClientHandler
@@ -17,7 +18,7 @@ public class ClientHandler implements Runnable
 {
 	private Integer clientId; // numéro du client attribué
 	private Integer userId; // id du client
-	SocketStreams client; // connexion avec le client
+	private SocketStreams client; // connexion avec le client
 	// private SessionServer session; // session à laquelle le client participe (actuellement)
 
 	//---------------------------------------------------------------------------
@@ -29,36 +30,30 @@ public class ClientHandler implements Runnable
 	{
 		client = new SocketStreams(socket);
 
-		this.clientNumber = clientsNumber++;
-		clients.put(clientNumber,this);
-
-		// this.session = null;
+		clientId = Clients.add(this);
 
 		log("nouvelle session établie");
 	}
 
 	//===========================================================================
-	// * Run ❯❯ A déplacer dans Main.java
-	// Définit l'enchaînement des intéractions avec le client.
+	// * Run
+	// Appelle l'action en réponse à l'objet envoyé par le client.
 	//---------------------------------------------------------------------------
 	// Note: Cette fonction est définie par la classe Runnable. Elle est appelée
 	// lorsque l'on démarre le Thread du client (cad clientThread.start() dans
 	// Server.java).
 	//---------------------------------------------------------------------------
-	// Scénario actuel: reçoit une chaîne de caractères envoyée par le client et
-	// la renvoie en majuscules.
 	//===========================================================================
 	public void run()
 	{
 		try {
-			client.sendObject("Bienvenue #" + clientNumber + "!"); // message de bienvenue
-			String userInput;
-
+			client.sendObject("Bienvenue #" + clientId + "!"); // message de bienvenue
+			Object receivedObject;
 			while (true) {
-				userInput = (String) client.getObject();
-				log("Reçu: " + userInput);
-				if (userInput == null) break;
-				client.sendObject(userInput.toUpperCase());
+				receivedObject = (String) client.getObject();
+				if(receivedObject == null) break;
+				log("reçu:   " + receivedObject.toString());
+				MainController.callAppropriateAction(this,receivedObject);
 			}
 
 		} finally {
@@ -80,6 +75,14 @@ public class ClientHandler implements Runnable
 	}
 
 	//---------------------------------------------------------------------------
+	// * Send object to client
+	//---------------------------------------------------------------------------
+	public void sendObject(Object object)
+	{
+		client.sendObject(object);
+	}
+
+	//---------------------------------------------------------------------------
 	// * Get user id
 	//---------------------------------------------------------------------------
 	// public Integer getUserId()
@@ -94,6 +97,6 @@ public class ClientHandler implements Runnable
 	//---------------------------------------------------------------------------
 	public void log(String message)
 	{
-		System.out.println("#" + clientNumber + " " + message);
+		System.out.println("#" + clientId + " " + message);
 	}
 }

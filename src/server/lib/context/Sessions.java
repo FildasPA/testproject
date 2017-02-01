@@ -1,10 +1,12 @@
-package controller.session.server;
+package server.lib.context;
 
 import java.io.*;
 import java.net.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import server.controller.SessionServer;
 
 //=============================================================================
 // ▼ Sessions
@@ -25,18 +27,28 @@ public class Sessions
 	// - initialiser un nouvel objet Session/SessionBase
 	// - initialiser un nouvel objet SessionServer
 	//---------------------------------------------------------------------------
-	public void add(Integer sessionId, Integer idClientMaster)
+	public static void add(Integer idClientMaster)
 	{
 		// Session sessionData = ConnexionBDD.getSessionById(sessionId);
 		// SessionServer sessionServer = new SessionServer();
-		sessions.put(sessionServer);
+		sessions.put(sessionsNumber++,sessionServer);
 	}
 
 	//---------------------------------------------------------------------------
 	// * Remove session
 	//---------------------------------------------------------------------------
-	public void remove(Integer sessionId)
+	public static void remove(Integer sessionId)
 	{
 		sessions.remove(sessionId);
+	}
+
+	//---------------------------------------------------------------------------
+	// * Display sessions
+	// Affiche la liste des sessions de votes en cours.
+	//---------------------------------------------------------------------------
+	public static void display()
+	{
+		System.out.println("Liste des sessions en cours:");
+		System.out.println(sessions.entrySet().toString());
 	}
 }

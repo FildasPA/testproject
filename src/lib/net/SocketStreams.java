@@ -1,4 +1,4 @@
-package net;
+package lib.net;
 
 import java.io.*;
 import java.net.*;

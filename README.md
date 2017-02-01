@@ -22,7 +22,7 @@ Modèle type d'une action d'un contrôleur:
 public static void capitalize(ClientHandler client, Object object) {
 	public void run()
 	{
-		// Pour Server : On peut utiliser les classes dans Context!
+		// Pour Server : On peut utiliser les classes context! (Sessions & Clients)
 		String userInput;
 		userInput = (String) client.getObject();
 		client.sendObject(userInput.toUpperCase());

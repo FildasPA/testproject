@@ -1,4 +1,4 @@
-package server;
+package server.lib.context;
 
 import java.io.*;
 import java.net.*;
@@ -6,12 +6,14 @@ import java.net.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import server.lib.ClientHandler;
+
 //=============================================================================
 // ▼ Clients
 // ----------------------------------------------------------------------------
 // Gère la liste des clients connectés.
 //=============================================================================
-public class Clients
+public abstract class Clients
 {
 	private static Integer clientsNumber = 0; // nombre de clients qui se sont connectés
 	private static Map<Integer,ClientHandler> clients = new
@@ -20,15 +22,16 @@ public class Clients
 	//---------------------------------------------------------------------------
 	// * Add client
 	//---------------------------------------------------------------------------
-	public void add(Integer clientId, ClientHandler client)
+	public static Integer add(ClientHandler client)
 	{
-		clients.put(clientId,client);
+		clients.put(clientsNumber,client);
+		return clientsNumber++;
 	}
 
 	//---------------------------------------------------------------------------
 	// * Remove client
 	//---------------------------------------------------------------------------
-	public void remove(Integer clientId)
+	public static void remove(Integer clientId)
 	{
 		clients.remove(clientId);
 	}
@@ -36,7 +39,7 @@ public class Clients
 	//---------------------------------------------------------------------------
 	// * Send object to client
 	//---------------------------------------------------------------------------
-	public void sendObjectToClient(Integer clientId, Object object)
+	public static void sendObjectToClient(Integer clientId, Object object)
 	{
 		Clients.sendObjectToClient(clientId,object);
 	}
@@ -49,4 +52,14 @@ public class Clients
 	// {
 	// 	return clients.get(id);
 	// }
+
+	//---------------------------------------------------------------------------
+	// * Display clients
+	// Affiche la liste des clients connectés.
+	//---------------------------------------------------------------------------
+	public static void display()
+	{
+		System.out.println("Liste des clients connectés");
+		System.out.println(clients.entrySet().toString());
+	}
 }
