@@ -9,7 +9,7 @@ import java.util.Vector;
  *
  * @see Question
  */
-class List {
+class List implements Serializable {
 
 	/**
 	 * The title of the list.

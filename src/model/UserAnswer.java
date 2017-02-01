@@ -7,7 +7,7 @@ package model;
  * @author Jean-Loup Gaussen
  *
  */
-class UserAnswer {
+class UserAnswer implements Serializable {
 	/**
 	 * The question id that the user answered with this answer
 	 *

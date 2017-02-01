@@ -12,7 +12,7 @@ import javax.swing.Timer;
  *
  * @author Jean-Loup Gaussen
  */
-class Session{
+class Session implements Serializable {
 
 	/**
 	 * The session name, defined by its creator at its creation

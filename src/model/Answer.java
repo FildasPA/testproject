@@ -9,7 +9,7 @@ package model;
  * @author Jean-Loup Gaussen
  *
  */
-class Answer {
+class Answer implements Serializable {
 	/**
 	 * The answer.
 	 *
