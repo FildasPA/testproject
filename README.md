@@ -1,5 +1,8 @@
 # FlashQuiz
 
+[Rapport pour le serveur](https://gist.github.com/FildasPA/b159860ab0877b423079701f133985b5)
+
+
 __Compilation:__
 
 ```
@@ -22,20 +25,14 @@ java -cp bin Client
 
 Modèle type d'une action d'un contrôleur:
 
-```
+```java
 //---------------------------------------------------------------------------
 // * Capitalize
 //---------------------------------------------------------------------------
 // Renvoie la chaîne de caractères envoyée par le client en majuscules.
-//---------------------------------------------------------------------------
-// Note: Cette fonction est définie par la classe Runnable. Elle est appelée
-// lorsque l'on démarre le Thread du client (cad clientThread.start() dans
-// Server.java).
 //===========================================================================
-public static void capitalize(ClientHandler client, Object object) {
-	public void run()
-	{
+public static void capitalize(ClientHandler client, String userInput)
+{
 		client.sendObject(userInput.toUpperCase());
-	}
 }
 ```
