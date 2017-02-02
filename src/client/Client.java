@@ -24,7 +24,6 @@ class Client extends MainController
 	{
 		this.server = server;
 		log(Ansi.BLUE + (String) server.getObject() + Ansi.RESET);
-		input();
 	}
 
 	//---------------------------------------------------------------------------

@@ -5,8 +5,16 @@ SOURCES := src
 JC      := javac
 JFLAGS  := -g
 
+CRDIRS  := $(BIN)
 
-default: compileClient compileServer
+default: makedir compileClient compileServer
+
+
+client: makedir compileClient
+	java -classpath bin Client
+
+server: makedir compileServer
+	java -classpath bin Server
 
 compileClient:
 	$(JC) -sourcepath $(SOURCES) -classpath $(BIN) -d $(BIN) src/client/Client.java
@@ -14,14 +22,10 @@ compileClient:
 compileServer:
 	$(JC) -sourcepath $(SOURCES) -classpath $(BIN) -d $(BIN) src/server/Server.java
 
-client:
-	compileClient
-	java -classpath bin Client
 
-server:
-	compileServer
-	java -classpath bin Server
-
+# Créer les dossiers nécessaires
+makedir:
+	mkdir -p $(foreach dir,$(CRDIRS),$(dir))
 
 clean:
-	$(RM) *.class
+	rm -drf $(BIN)
