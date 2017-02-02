@@ -3,22 +3,22 @@
 [Rapport pour le serveur](https://gist.github.com/FildasPA/b159860ab0877b423079701f133985b5)
 
 
-__Compilation:__
+__Compiler et exécuter serveur (à exécuter en premier) :__
+
+```
+make Serveur
+```
+
+__Compiler et exécuter client :__
+
+```
+make Client
+```
+
+__(Tout compiler, mais ne rien exécuter :)__
 
 ```
 make
-```
-
-__Exécution serveur:__
-
-```
-java -cp bin Serveur
-```
-
-__Exécution client(s):__
-
-```
-java -cp bin Client
 ```
 
 ---

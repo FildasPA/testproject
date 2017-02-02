@@ -14,7 +14,7 @@ CRDIRS  := $(BIN)
 # Exécutables
 CLIENT   := Client
 SERVER   := Server
-DEFAULT  := $(CLIENT)
+DEFAULT  :=
 
 # Liste des exécutables
 LISTEXES := $(CLIENT) $(SERVER)
