@@ -1,7 +1,9 @@
 import java.io.*;
 import java.net.*;
 
+import lib.Ansi;
 import lib.net.SocketStreams;
+
 import client.controller.MainController;
 
 //=============================================================================
@@ -21,7 +23,8 @@ class Client extends MainController
 	public Client(SocketStreams server)
 	{
 		this.server = server;
-		System.out.println((String) server.getObject());
+		log(Ansi.BLUE + (String) server.getObject() + Ansi.RESET);
+		input();
 	}
 
 	//---------------------------------------------------------------------------
