@@ -2,6 +2,7 @@ package client.controller;
 
 import java.util.Scanner;
 
+import lib.Ansi;
 import lib.net.SocketStreams;
 import lib.net.Request;
 
@@ -15,6 +16,14 @@ import lib.net.Request;
 public abstract class MainController
 {
 	//---------------------------------------------------------------------------
+	// * Command prompt
+	//---------------------------------------------------------------------------
+	public static void commandPrompt()
+	{
+		System.out.print(Ansi.GREEN + "λ " + Ansi.RESET);
+	}
+
+	//---------------------------------------------------------------------------
 	// * Demande à l'utilisateur une chaîne de caractères, l'envoie au serveur
 	// et affiche sa réponse (la chaîne passée en majuscules).
 	// Le programme s'arrête lorsque l'utilisateur entre le caractère 'q'.
@@ -24,16 +33,16 @@ public abstract class MainController
 		Scanner keyboard = new Scanner(System.in);
 		String response;
 		String userInput;
-		String[] userInputs;
+		String[] userInputArray;
 
 		while(true) {
-			// Invite de commande
-			System.out.print("> ");
-			userInput = keyboard.nextLine().trim();
-			userInputs = userInput.split(" ");
+			commandPrompt();
+
+			userInput      = keyboard.nextLine().trim();
+			userInputArray = userInput.split(" ");
 
 			// Interprète la commande
-			switch(userInputs[0]) {
+			switch(userInputArray[0]) {
 
 				// Quitter
 				case "q":
@@ -42,24 +51,24 @@ public abstract class MainController
 
 				// Actions sur les sessions
 				case "open-session":
-					log("Open session #" + userInputs[1] + "!");
+					log("Open session #" + userInputArray[1] + "!");
 					break;
 				case "close-session":
-					log("Close session #" + userInputs[1] + "!");
+					log("Close session #" + userInputArray[1] + "!");
 					break;
 				case "join-session":
-					log("Join session #" + userInputs[1] + "!");
+					log("Join session #" + userInputArray[1] + "!");
 					break;
 				case "end-session":
-					log("End session #" + userInputs[1] + "!");
+					log("End session #" + userInputArray[1] + "!");
 					break;
 				case "leave-session":
-					log("Leave session #" + userInputs[1] + "!");
+					log("Leave session #" + userInputArray[1] + "!");
 					break;
 
 				// List
 				case "list":
-					switch(userInputs[1]) {
+					switch(userInputArray[1]) {
 						case "open-sessions":
 							log("Open sessions:");
 							break;
