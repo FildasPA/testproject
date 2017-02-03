@@ -6,11 +6,11 @@ import java.net.*;
 // import lib.net.SocketStreams;
 // import lib.net.Request;
 
-// import server.lib.context.*;
-// import server.controller.MainController;
-
 // import server.ConnexionBDD; // TODO RES-BDD: à renommer
-// import sessionvoting.server.*;
+import lib.Console;
+import lib.Ansi;
+
+import lib.net.Clients;
 
 //=============================================================================
 // ▼ ClientHandler
@@ -33,9 +33,11 @@ class ClientHandler implements Runnable
 	{
 		client = new SocketStreams(socket);
 
-		// clientId = Clients.add(this);
+		clientId = Clients.add(this);
 
-		log("nouvelle session établie");
+		// System.out.println("clientid: " + clientId);
+
+		log("nouvelle connexion établie");
 	}
 
 	//===========================================================================
@@ -104,6 +106,6 @@ class ClientHandler implements Runnable
 	//---------------------------------------------------------------------------
 	public void log(String message)
 	{
-		System.out.println("#" + clientId + " " + message);
+		Console.printb(Ansi.BLUE + "#" + clientId + Ansi.RESET + " " + message);
 	}
 }

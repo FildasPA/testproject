@@ -3,10 +3,9 @@ package lib.net;
 import java.net.*;
 import java.io.IOException;
 
-// import server.controller.MainController;
 import lib.Console;
-// import lib.net.ClientHandler;
-// import lib.net.Clients;
+import lib.net.Clients;
+import lib.net.ClientHandler;
 // import server.lib.DB;
 
 //=============================================================================
@@ -51,7 +50,7 @@ public class Server implements Runnable
 	//---------------------------------------------------------------------------
 	public void run()
 	{
-		Console.printAsync("Serveur démarré!");
+		Console.printb("Serveur démarré!");
 
 		listening = true;
 

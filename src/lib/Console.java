@@ -34,7 +34,7 @@ public class Console
 	//---------------------------------------------------------------------------
 	// * Print
 	//---------------------------------------------------------------------------
-	public static void printAsync(String message)
+	public static void printb(String message)
 	{
 		clearPreviousLine();
 		print(message);

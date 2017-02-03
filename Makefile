@@ -65,7 +65,7 @@ endif
 SRCEXE = $(filter %$(EXE).java,$(SRCEXES))
 
 # Compile et exécute l'exécutable
-$(EXE): makedir $(SRCEXE:.java=.class) ccsuccess
+$(EXE): clean makedir $(SRCEXE:.java=.class) ccsuccess
 	@$(JA) $(CP) $@
 
 ###################

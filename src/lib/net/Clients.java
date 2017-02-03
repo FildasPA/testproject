@@ -6,7 +6,7 @@ import java.net.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import server.lib.ClientHandler;
+import lib.net.ClientHandler;
 
 //=============================================================================
 // ▼ Clients
