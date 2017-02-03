@@ -13,18 +13,18 @@ CRDIRS  := $(BIN)
 
 # Exécutables
 CLIENT   := Client
-SERVER   := Server
-DEFAULT  :=
+# SERVER   := Server
+DEFAULT  := $(CLIENT)
 
 # Liste des exécutables
-LISTEXES := $(CLIENT) $(SERVER)
+LISTEXES := $(CLIENT)
 
 # Source des exécutables
-SRCCLIENT := $(SRC)/client/Client.java
-SRCSERVER := $(SRC)/server/Server.java
+SRCCLIENT := $(SRC)/Client.java
+# SRCSERVER := $(SRC)/server/Server.java
 
 # Liste des sources des exécutables
-SRCEXES  := $(SRCCLIENT) $(SRCSERVER)
+SRCEXES  := $(SRCCLIENT)
 
 #####################
 #   Configuration   #

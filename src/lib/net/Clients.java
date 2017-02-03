@@ -1,4 +1,4 @@
-package server.lib.context;
+package lib.net;
 
 import java.io.*;
 import java.net.*;
@@ -13,7 +13,7 @@ import server.lib.ClientHandler;
 // ----------------------------------------------------------------------------
 // Gère la liste des clients connectés.
 //=============================================================================
-public abstract class Clients
+abstract class Clients
 {
 	private static Integer clientsNumber = 0; // nombre de clients qui se sont connectés
 	private static Map<Integer,ClientHandler> clients = new

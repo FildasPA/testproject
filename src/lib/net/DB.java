@@ -1,4 +1,4 @@
-package server.lib;
+package lib.net;
 
 // TODO RES-BDD
 

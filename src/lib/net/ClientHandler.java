@@ -1,13 +1,13 @@
-package server.lib;
+package lib.net;
 
 import java.io.*;
 import java.net.*;
 
-import lib.net.SocketStreams;
-import lib.net.Request;
+// import lib.net.SocketStreams;
+// import lib.net.Request;
 
-import server.lib.context.*;
-import server.controller.MainController;
+// import server.lib.context.*;
+// import server.controller.MainController;
 
 // import server.ConnexionBDD; // TODO RES-BDD: à renommer
 // import sessionvoting.server.*;
@@ -17,7 +17,7 @@ import server.controller.MainController;
 // ----------------------------------------------------------------------------
 // Créée après l'établissement d'une connexion avec un utilisateur.
 //=============================================================================
-public class ClientHandler implements Runnable
+class ClientHandler implements Runnable
 {
 	private Integer clientId; // numéro du client attribué
 	private Integer userId; // id du client
@@ -33,7 +33,7 @@ public class ClientHandler implements Runnable
 	{
 		client = new SocketStreams(socket);
 
-		clientId = Clients.add(this);
+		// clientId = Clients.add(this);
 
 		log("nouvelle session établie");
 	}
@@ -60,7 +60,7 @@ public class ClientHandler implements Runnable
 				// receivedObject = (String) client.getObject();
 				// if(receivedObject == null) break;
 				// log("reçu: " + request.getObject().toString());
-				MainController.callAppropriateAction(this,request);
+				// MainController.callAppropriateAction(this,request);
 			}
 
 		} finally {

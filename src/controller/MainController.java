@@ -1,8 +1,12 @@
-package server.controller;
+package client.controller;
 
+import java.util.Scanner;
+
+import lib.Ansi;
+import lib.net.SocketStreams;
 import lib.net.Request;
 
-import server.lib.ClientHandler;
+// Déterminer et appeler l'action appropriée correspondant à l'action effectuée par l'utilisateur sur la vue
 
 //=============================================================================
 // * Contrôleur principal
@@ -11,28 +15,27 @@ import server.lib.ClientHandler;
 //=============================================================================
 public abstract class MainController
 {
-	//---------------------------------------------------------------------------
-	// * Log
-	// Affiche un message sur la sortie standard du serveur.
-	//---------------------------------------------------------------------------
-	public static void callAppropriateAction(ClientHandler client, Request request)
-	{
-		String action = request.getAction();
-		Object object = request.getObject();
+	private Server server;
+	private SocketStreams server;
 
-		switch(action) {
-			case "capitalize":
-				MainController.capitalize(client,(String) object);
-				break;
-		}
+	//---------------------------------------------------------------------------
+	// * Capitalize
+	// Renvoie la chaîne de caractères en majuscules
+	//---------------------------------------------------------------------------
+	public static void capitalize(String userInput)
+	{
+		server.sendRequest("capitalize",userInput);
+		String s = (String) server.getObject();
+		if(s == null) System.exit(0);
+		log("Reçu:   " + s);
 	}
 
 	//---------------------------------------------------------------------------
 	// * Log
-	// Affiche un message sur la sortie standard du serveur.
+	// Affiche un message sur la sortie standard.
 	//---------------------------------------------------------------------------
-	public static void capitalize(ClientHandler client, String message)
+	public static void log(String message)
 	{
-		client.sendObject(message.toUpperCase());
+		System.out.println(message);
 	}
 }
