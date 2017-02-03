@@ -1,5 +1,4 @@
-
-package votingsession;
+package model;
 
 import java.util.Vector;
 import java.awt.event.ActionEvent;
@@ -13,7 +12,7 @@ import javax.swing.Timer;
  *
  * @author Jean-Loup Gaussen
  */
-abstract class SessionBase {
+class Session implements Serializable {
 
 	/**
 	 * The session name, defined by its creator at its creation
@@ -91,7 +90,7 @@ abstract class SessionBase {
 	 * @see SessionBase#id
 	 * @see SessionBase#currList
 	 */
-	public SessionBase(String name, int idCreator, int id,
+	public Session(String name, int idCreator, int id,
 			boolean isQuestionsOrderRandom) {
 		this.name = name;
 		this.idCreator = idCreator;

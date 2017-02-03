@@ -1,5 +1,4 @@
-
-package votingsession;
+package model;
 
 import java.util.Vector;
 
@@ -10,7 +9,7 @@ import java.util.Vector;
  *
  * @author Jean-Loup Gaussen
  */
-class Question {
+class Question implements Serializable {
 
 	/**
 	 * The question id.

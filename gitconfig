@@ -1,0 +1,20 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = https://github.com/CeriAvignon/FlashQuiz.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[branch "TVS"]
+	remote = origin
+	merge = refs/heads/TVS
+[remote "usb"]
+	url = usb/dev/flashquiz
+	fetch = +refs/heads/*:refs/remotes/usb/*
+[user]
+	email = julien.boge@alumni.univ-avignon.fr
+	name = Julien Boge
