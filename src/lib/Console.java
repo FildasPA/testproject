@@ -1,9 +1,10 @@
 package lib;
 
-/**
- * Colors
- http://stackoverflow.com/a/5762502
- */
+//=============================================================================
+// ▼ Console
+// ----------------------------------------------------------------------------
+// Fonctions d'affichage pour la console.
+//=============================================================================
 public class Console
 {
 	//---------------------------------------------------------------------------
@@ -21,6 +22,7 @@ public class Console
 	{
 		System.out.print("\r"); // Erase line content
 		System.out.print(String.format("\033[%dA",1)); // Move up
+		System.out.print("\r"); // Erase line content
 	}
 
 	//---------------------------------------------------------------------------
@@ -32,7 +34,15 @@ public class Console
 	}
 
 	//---------------------------------------------------------------------------
-	// * Print
+	// * Print error
+	//---------------------------------------------------------------------------
+	public static void printerr(String message)
+	{
+		print(Ansi.RED + "Erreur: " + Ansi.RESET + message);
+	}
+
+	//---------------------------------------------------------------------------
+	// * Print before prompt command
 	//---------------------------------------------------------------------------
 	public static void printb(String message)
 	{

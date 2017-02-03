@@ -13,18 +13,18 @@ package lib.net;
 // à la fois (qu'une seule fonction sur l'objet connexion). Sauf s'il y a moyen
 // qu'elle puisse en gérer plusieurs à la fois bien sûr...
 //=============================================================================
-public abstract class ConnexionBDD // renommer
+public abstract class DB // renommer
 {
-	private static Type connexion; // Je sais pas le type ^^
+	// private static Type connexion; // Je sais pas le type ^^
 
 	//---------------------------------------------------------------------------
 	// * Connect
 	// Initialise la connexion avec la bdd.
 	//---------------------------------------------------------------------------
-	public static connect()
-	{
+	// public static connect()
+	// {
 		// Votre connexion à la bdd
-	}
+	// }
 
 	/*===========================================================================
 	* ▼ CONCERNANT VOS CLASSES "OBJECTHANDLER"

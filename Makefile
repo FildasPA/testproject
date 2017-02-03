@@ -41,6 +41,8 @@ SP      := -sourcepath $(SRC)
 CP      := -classpath "$(BIN):$(LIB)"
 DP      := -d $(BIN)
 
+# Ne pas compiler les dossiers/fichiers contenant:
+EXCLUDE := model
 
 ###########################
 #   Compiler & exécuter   #
@@ -65,7 +67,7 @@ endif
 SRCEXE = $(filter %$(EXE).java,$(SRCEXES))
 
 # Compile et exécute l'exécutable
-$(EXE): clean makedir $(SRCEXE:.java=.class) ccsuccess
+$(EXE): makedir listfiles ccsource ccsuccess
 	@$(JA) $(CP) $@
 
 ###################
@@ -77,7 +79,15 @@ $(EXE): clean makedir $(SRCEXE:.java=.class) ccsuccess
 
 # Compiler une classe
 .java.class:
-	@$(JC) $(JFLAGS) $(CP) $(SP) $(DP) $*.java
+	$(JC) $(JFLAGS) $(OPT) $(CP) $(DP) $*.java
+
+# Liste les fichiers sources
+listfiles:
+	$(shell find $(SRC) -name "*.java" | grep -v '$(EXCLUDE)' > source.txt)
+
+# Compile tous les fichiers listés
+ccsource:
+	@$(JC) $(JFLAGS) $(OPT) $(DP) @source.txt
 
 # Affiche un message confirmant le succès de la compilation
 ccsuccess:

@@ -3,9 +3,10 @@ package lib.net;
 import java.net.*;
 import java.io.IOException;
 
+import lib.Ansi;
 import lib.Console;
-import lib.net.Clients;
-import lib.net.ClientHandler;
+// import lib.net.Clients;
+// import lib.net.ClientHandler;
 // import server.lib.DB;
 
 //=============================================================================
@@ -17,7 +18,7 @@ import lib.net.ClientHandler;
 public class Server implements Runnable
 {
 	private ServerSocket listener;
-	private boolean listening;
+	private Boolean listening;
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
@@ -25,9 +26,6 @@ public class Server implements Runnable
 	public Server(Integer port)
 	{
 		setListener(port);
-
-		// System.out.println("\nServeur démarré!");
-		// System.out.println("================\n");
 	}
 
 	//---------------------------------------------------------------------------
@@ -50,7 +48,7 @@ public class Server implements Runnable
 	//---------------------------------------------------------------------------
 	public void run()
 	{
-		Console.printb("Serveur démarré!");
+		Console.printb(Ansi.GREEN + "Serveur démarré!" + Ansi.RESET);
 
 		listening = true;
 
@@ -71,7 +69,6 @@ public class Server implements Runnable
 		}
 
 		try {
-			// System.out.println("Fin serveur!");
 			listener.close();
 		} catch (IOException e) {
 			e.getMessage();
@@ -85,8 +82,9 @@ public class Server implements Runnable
 	//---------------------------------------------------------------------------
 	public void stop()
 	{
-		// System.out.println("Stop!");
 		listening = false;
+		Console.print(Ansi.RED + "Close server" + Ansi.RESET);
+		Clients.closeAll();
 		try {
 			listener.close();
 		} catch (IOException e) {
@@ -94,24 +92,4 @@ public class Server implements Runnable
 			e.printStackTrace();
 		}
 	}
-
-	//---------------------------------------------------------------------------
-	// * Log
-	// Affiche un message sur la sortie standard.
-	//---------------------------------------------------------------------------
-	// public void log(String message)
-	// {
-	// 	System.out.println(message);
-	// }
-
-	//---------------------------------------------------------------------------
-	// * Main
-	// Initialise le serveur et démarre l'écoute.
-	//---------------------------------------------------------------------------
-	// public static void main(String[] args) throws IOException
-	// {
-	// 	Server server = new Server();
-	// 	// ConnexionBDD.connect(); // TODO RES-BDD : voir ConnexionBDD.java
-	// 	server.listen();
-	// }
 }

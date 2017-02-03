@@ -55,8 +55,10 @@ public class SocketStreams
 			Object object = inputStream.readObject();
 			return object;
 		} catch(IOException e) {
+			// e.getMessage();
 			// e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			// e.getMessage();
 			e.printStackTrace();
 		}
 		return null;
@@ -69,12 +71,16 @@ public class SocketStreams
 	public void sendRequest(String action, Object object)
 	{
 		try {
-			System.out.println("action: " + action);
-			System.out.println("object: " + object.toString());
+			// System.out.println("action: " + action);
+			// System.out.println("object: " + object.toString());
 			// Request request = new Request(action,object);
 			outputStream.writeObject(new Request(action,object));
 			outputStream.flush();
+		} catch(SocketException e) {
+			e.getMessage();
+			e.printStackTrace();
 		} catch(IOException e) {
+			e.getMessage();
 			e.printStackTrace();
 		}
 	}
@@ -89,8 +95,10 @@ public class SocketStreams
 			Request request = (Request) inputStream.readObject();
 			return request;
 		} catch(IOException e) {
+			// e.getMessage();
 			// e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			e.getMessage();
 			e.printStackTrace();
 		}
 		return null;

@@ -90,7 +90,7 @@ class Session implements Serializable {
 	 * @see SessionBase#id
 	 * @see SessionBase#currList
 	 */
-	public SessionBase(String name, int idCreator, int id,
+	public Session(String name, int idCreator, int id,
 			boolean isQuestionsOrderRandom) {
 		this.name = name;
 		this.idCreator = idCreator;

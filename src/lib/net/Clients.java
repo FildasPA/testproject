@@ -45,8 +45,16 @@ abstract class Clients
 	}
 
 	//---------------------------------------------------------------------------
-	// * Get client by id
-	// NOTE: Fonction pas forcément nécessaire, je la laisse là au cas où...
+	// * Close all clients
+	//---------------------------------------------------------------------------
+	public static void closeAll()
+	{
+		for(Map.Entry<Integer,ClientHandler> entry : clients.entrySet())
+			entry.getValue().close();
+	}
+
+	//---------------------------------------------------------------------------
+	// * Get client by id - pas forcément nécessaire, je le laisse là au cas
 	//---------------------------------------------------------------------------
 	// public ClientHandler getClientById(Integer id)
 	// {

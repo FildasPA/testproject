@@ -3,26 +3,24 @@ package lib.net;
 import java.io.*;
 import java.net.*;
 
-// import lib.net.SocketStreams;
-// import lib.net.Request;
-
-// import server.ConnexionBDD; // TODO RES-BDD: à renommer
 import lib.Console;
 import lib.Ansi;
 
 import lib.net.Clients;
+import controller.ServerReplies;
+// import lib.net.DB;
 
 //=============================================================================
 // ▼ ClientHandler
 // ----------------------------------------------------------------------------
-// Créée après l'établissement d'une connexion avec un utilisateur.
+// Créé après l'établissement d'une connexion avec un utilisateur.
 //=============================================================================
-class ClientHandler implements Runnable
+public class ClientHandler implements Runnable
 {
-	private Integer clientId; // numéro du client attribué
-	private Integer userId; // id du client
+	private Integer clientId;     // numéro du client attribué
+	private Integer userId;       // id de l'utilisateur correspondant
 	private SocketStreams client; // connexion avec le client
-	// private SessionServer session; // session à laquelle le client participe (actuellement)
+	private Boolean listening;
 
 	//---------------------------------------------------------------------------
 	// * Constructeur
@@ -35,9 +33,7 @@ class ClientHandler implements Runnable
 
 		clientId = Clients.add(this);
 
-		// System.out.println("clientid: " + clientId);
-
-		log("nouvelle connexion établie");
+		log(Ansi.GREEN + "nouvelle connexion établie" + Ansi.RESET);
 	}
 
 	//===========================================================================
@@ -51,40 +47,36 @@ class ClientHandler implements Runnable
 	public void run()
 	{
 		try {
+			listening = true;
 			Request request;
 			Object object;
 
-			client.sendObject("Bienvenue #" + clientId + "!"); // message de bienvenue
+			client.sendObject("Bienvenue " + Ansi.BLUE + "#" + clientId + Ansi.RESET + "!"); // message de bienvenue
 
-			while (true) {
+			while (listening) {
 				request = client.getRequest();
 				if(request == null) break;
-				// receivedObject = (String) client.getObject();
-				// if(receivedObject == null) break;
-				// log("reçu: " + request.getObject().toString());
-				// MainController.callAppropriateAction(this,request);
+				// log("reçu: " + (String) request.getObject());
+				ServerReplies.interpreter(this,request);
 			}
 
 		} finally {
-			try {
-				client.closeSocket();
-			} catch (IOException e) {
-				log("couldn't close a socket, what's going on?");
-			}
-			log("connexion terminée");
+			terminate();
 		}
 	}
 
 	//---------------------------------------------------------------------------
-	// * Get client id
+	// * Terminate
 	//---------------------------------------------------------------------------
-	public Integer getClientId()
+	private void terminate()
 	{
-		return clientId;
+		log(Ansi.RED + "connexion terminée" + Ansi.RESET);
+		Clients.remove(clientId);
 	}
 
 	//---------------------------------------------------------------------------
 	// * Send object to client
+	// Note: le serveur ne fait que renvoyer des objets.
 	//---------------------------------------------------------------------------
 	public void sendObject(Object object)
 	{
@@ -92,7 +84,29 @@ class ClientHandler implements Runnable
 	}
 
 	//---------------------------------------------------------------------------
-	// * Get user id
+	// * Close
+	//---------------------------------------------------------------------------
+	public void close()
+	{
+		listening = false;
+		try {
+			client.closeSocket();
+		} catch (IOException e) {
+			log("couldn't close a socket, what's going on?");
+		}
+	}
+
+
+	//---------------------------------------------------------------------------
+	// * Get client id - pas forcément nécessaire, je le laisse là au cas
+	//---------------------------------------------------------------------------
+	// public Integer getClientId()
+	// {
+	// 	return clientId;
+	// }
+
+	//---------------------------------------------------------------------------
+	// * Get user id - pas forcément nécessaire, je le laisse là au cas
 	//---------------------------------------------------------------------------
 	// public Integer getUserId()
 	// {

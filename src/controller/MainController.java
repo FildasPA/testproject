@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.Scanner;
+import java.lang.reflect.Array;
 
 import java.io.*;
 import java.net.*;
@@ -10,7 +11,6 @@ import lib.Console;
 
 import lib.net.Server;
 import lib.net.SocketStreams;
-// import lib.net.Request;
 
 // Déterminer et appeler l'action appropriée correspondant à l'action effectuée par l'utilisateur sur la vue
 
@@ -21,9 +21,9 @@ import lib.net.SocketStreams;
 //=============================================================================
 public class MainController
 {
-	private Server server;
-	private Thread serverThread;
-	private SocketStreams remote;
+	private Server localServer;
+	private Thread localServerThread;
+	private SocketStreams remoteServer;
 
 	//---------------------------------------------------------------------------
 	// * Main
@@ -45,15 +45,17 @@ public class MainController
 		do {
 			Console.commandPrompt();
 			userInput = keyboard.nextLine().trim();
-		} while(interpreter(userInput.split(" ")));
+		} while(interpreter(userInput));
 	}
 
 	//---------------------------------------------------------------------------
 	// * Interprète la commande de l'utilisateur
 	// Si 'q', efface tous les objets créés et quitte le programme.
 	//---------------------------------------------------------------------------
-	public Boolean interpreter(String[] inputs)
+	public Boolean interpreter(String input)
 	{
+		String[] inputs = input.split(" ");
+
 		// Interprète la commande
 		switch(inputs[0]) {
 
@@ -104,31 +106,68 @@ public class MainController
 				}
 				break;
 
+			// case "capitalize":
+				// capitalize(inputs[1]);
+				// break;
+
 			default:
-				// capitalize(server,Arrays.toString(inputs));
+				serverInterpreter(input);
+				// String line = StringUtils.join(inputs[2]," ");
+		}
+		return true;
+	}
+
+	//---------------------------------------------------------------------------
+	// * Server interpreter
+	//---------------------------------------------------------------------------
+	public void serverInterpreter(String input)
+	{
+		String[] inputs = input.split(" ");
+
+		// Interprète la commande
+		switch(inputs[0]) {
+
+			// Capitalize
+			case "capitalize":
+				capitalize(input.replaceFirst("capitalize ",""));
+				break;
+
+			default:
+		}
+	}
+
+	//---------------------------------------------------------------------------
+	// * Check remote server
+	//---------------------------------------------------------------------------
+	private Boolean checkRemoteServer()
+	{
+		if(remoteServer == null) {
+			Console.printerr("Vous devez être connecté à un serveur");
+			return false;
 		}
 		return true;
 	}
 
 	//---------------------------------------------------------------------------
 	// * Capitalize
-	// Renvoie la chaîne de caractères en majuscules
+	// Renvoie un mot en majuscules
 	//---------------------------------------------------------------------------
-	// public static void capitalize(String line)
-	// {
-	// 	server.sendRequest("returnCapitalized",line);
-	// 	String s = (String) server.getObject();
-	// 	if(s == null) System.exit(0);
-	// 	log("Reçu:   " + s);
-	// }
+	public void capitalize(String line)
+	{
+		if(!checkRemoteServer()) return;
+		remoteServer.sendRequest("capitalize",(Object) line);
+		String s = (String) remoteServer.getObject();
+		if(s == null) System.exit(0);
+		printReceived(s);
+	}
 
 	//---------------------------------------------------------------------------
 	// * Terminate
 	//---------------------------------------------------------------------------
 	public void terminate()
 	{
-		if(server != null) server.stop();
-		Console.print("A la prochaine!");
+		Console.print("A la prochaine!\n");
+		if(localServer != null) localServer.stop();
 	}
 
 	//---------------------------------------------------------------------------
@@ -137,14 +176,14 @@ public class MainController
 	//---------------------------------------------------------------------------
 	public void openServer(Integer port)
 	{
-		if(server != null) {
+		if(localServer != null) {
 			Console.print("Un serveur est déjà ouvert!");
 			return;
 		}
-		Console.print("Ask open server on port " + port + "!");
-		server = new Server(port);
-		serverThread = new Thread(server);
-		serverThread.start();
+		Console.print("Demandé à démarrer un serveur sur le port " + port + "...");
+		localServer = new Server(port);
+		localServerThread = new Thread(localServer);
+		localServerThread.start();
 	}
 
 	//---------------------------------------------------------------------------
@@ -152,16 +191,26 @@ public class MainController
 	//---------------------------------------------------------------------------
 	public void joinServer(Integer port)
 	{
-		if(remote != null) {
+		if(remoteServer != null) {
 			Console.print("Déjà connecté à un serveur!");
 			return;
 		}
-		Console.print("Ask join server on port " + port + "!");
+		Console.print("Demandé à rejoindre le serveur sur le port " + port + "...");
 		try {
-			remote = new SocketStreams(new Socket("localhost", port));
+			remoteServer = new SocketStreams(new Socket("localhost", port));
+			String s = (String) remoteServer.getObject();
+			printReceived(s);
 		} catch (IOException e) {
 			e.getMessage();
 			e.printStackTrace();
 		}
+	}
+
+	//---------------------------------------------------------------------------
+	// * Join server
+	//---------------------------------------------------------------------------
+	public void printReceived(String s)
+	{
+		Console.print(Ansi.GREEN + "Reçu: " + Ansi.RESET + s);
 	}
 }
