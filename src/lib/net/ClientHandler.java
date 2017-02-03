@@ -96,7 +96,6 @@ public class ClientHandler implements Runnable
 		}
 	}
 
-
 	//---------------------------------------------------------------------------
 	// * Get client id - pas forcément nécessaire, je le laisse là au cas
 	//---------------------------------------------------------------------------

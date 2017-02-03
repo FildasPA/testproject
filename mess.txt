@@ -1,0 +1,13 @@
+Bonjour,
+
+J'en avais +- parlé à quelques-uns, puis avec le prof mercredi, en essayant de comprendre les pré-requis pour une tâche de mon groupe (TVS), j'en suis arrivé à une architecture MVC pour l'application.
+
+L'organisation des packages et des fichiers se trouve sur le wiki du projet: https://github.com/CeriAvignon/FlashQuiz/wiki/Proposition-packages
+
+J'y ai également ajouté les tâches restantes (à discuter bien sûr).
+
+J'ai encore quelques petites modifs à faire, mais j'essaierai de vous fournir le code source rapidement (sur une branche à part) avec quelques explications. S'il vous convient, on pourra le fusionner sur master afin que chaque groupe reparte sur la même base avant de re-créer sa branche.
+
+Bon week-end
+
+Julien

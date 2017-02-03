@@ -21,7 +21,6 @@ LISTEXES := $(CLIENT)
 
 # Source des exécutables
 SRCCLIENT := $(SRC)/Client.java
-# SRCSERVER := $(SRC)/server/Server.java
 
 # Liste des sources des exécutables
 SRCEXES  := $(SRCCLIENT)

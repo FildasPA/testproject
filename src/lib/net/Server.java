@@ -5,9 +5,8 @@ import java.io.IOException;
 
 import lib.Ansi;
 import lib.Console;
-// import lib.net.Clients;
-// import lib.net.ClientHandler;
-// import server.lib.DB;
+
+// import lib.net.DB;
 
 //=============================================================================
 // ▼ Server
@@ -45,6 +44,9 @@ public class Server implements Runnable
 	// * Listen
 	// Créer un nouveau socket et un nouveau thread à chaque fois qu'un client
 	// essaie de se connecter.
+	//---------------------------------------------------------------------------
+	// Note: Cette fonction est définie par la classe Runnable. Elle est appelée
+	// lorsque l'on démarre le Thread.
 	//---------------------------------------------------------------------------
 	public void run()
 	{

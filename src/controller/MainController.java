@@ -12,8 +12,6 @@ import lib.Console;
 import lib.net.Server;
 import lib.net.SocketStreams;
 
-// Déterminer et appeler l'action appropriée correspondant à l'action effectuée par l'utilisateur sur la vue
-
 //=============================================================================
 // * Contrôleur principal
 // ----------------------------------------------------------------------------
@@ -106,27 +104,6 @@ public class MainController
 				}
 				break;
 
-			// case "capitalize":
-				// capitalize(inputs[1]);
-				// break;
-
-			default:
-				serverInterpreter(input);
-				// String line = StringUtils.join(inputs[2]," ");
-		}
-		return true;
-	}
-
-	//---------------------------------------------------------------------------
-	// * Server interpreter
-	//---------------------------------------------------------------------------
-	public void serverInterpreter(String input)
-	{
-		String[] inputs = input.split(" ");
-
-		// Interprète la commande
-		switch(inputs[0]) {
-
 			// Capitalize
 			case "capitalize":
 				capitalize(input.replaceFirst("capitalize ",""));
@@ -134,6 +111,7 @@ public class MainController
 
 			default:
 		}
+		return true;
 	}
 
 	//---------------------------------------------------------------------------

@@ -73,7 +73,6 @@ public class SocketStreams
 		try {
 			// System.out.println("action: " + action);
 			// System.out.println("object: " + object.toString());
-			// Request request = new Request(action,object);
 			outputStream.writeObject(new Request(action,object));
 			outputStream.flush();
 		} catch(SocketException e) {
